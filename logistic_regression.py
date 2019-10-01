@@ -10,8 +10,8 @@
 # Gooood luck for your first programming assignment. ;)
 
 __author__ = "Zifeng Wang"
-__email__  = "wangzf18@mails.tsinghua.edu.cn"
-__date__   = "20190920"
+__email__ = "wangzf18@mails.tsinghua.edu.cn"
+__date__ = "20190920"
 
 import numpy as np
 import pdb
@@ -22,67 +22,81 @@ from load_mnist import load_mnist, filter_dataset
 
 np.random.seed(2019)
 
+
 class logistic_regression:
-	"""To develop a classifier, 
-	u may build its two basic functions first:
-	the train and predict.
-	"""
-	def __init__(self):
-		self.acc_func = lambda x,y: 100 * np.sum(x==y) / x.shape[0]
+    """To develop a classifier,
+    u may build its two basic functions first:
+    the train and predict.
+    """
 
-	def train(self, x_train, y_train):
-		"""Receive the input training data, then learn the model.
-		Inputs:
-		x_train: np.array, shape (num_samples, num_features)
-		y_train: np.array, shape (num_samples, )
+    def __init__(self):
+        self.acc_func = lambda x, y: 100 * np.sum(x == y) / x.shape[0]
 
-		Outputs：
-		None
-		"""
-		self.w = np.random.randn(784)
-		self.learning_rate = 0.1
+    def train(self, x_train, y_train):
+        """Receive the input training data, then learn the model.
+        Inputs:
+        x_train: np.array, shape (num_samples, num_features)
+        y_train: np.array, shape (num_samples, )
 
-		# update the parameters
-		for i in range(100):
-			"""
-			Please Fill Your Code Here.
-			"""
+        Outputs：
+        None
+        """
+        self.w = np.random.randn(784)
+        self.learning_rate = 0.1
 
-	def predict(self, x_test):
-		"""Do prediction via the learned model.
-		Inputs:
-		x_test: np.array, shape (num_samples, num_features)
+        # update the parameters
+        for i in range(100):
+            """
+            Please Fill Your Code Here.
+            """
+            def indicator(a, b):
+                if a == b:
+                    return 1
+                else:
+                    return 0
 
-		Outputs:
-		pred: np.array, shape (num_samples, )
-		"""
+            #self.w = self.w + self.learning_rate * (y_train[i] - x_train[i].dot(self.w)) * x_train[i]
+            p = np.exp(x_train[i].dot(self.w))/sum(np.exp(x_train[i].dot(self.w)))
+            grad = 42
+            self.w = self.w + self.learning_rate * grad
+            # http://www.datascribble.com/blog/machine-learning/introduction-softmax-regression-codes-python/
 
-		"""
-		Please Fill Your Code Here.
-		"""
-		
-		return pred
+    def predict(self, x_test):
+        """Do prediction via the learned model.
+        Inputs:
+        x_test: np.array, shape (num_samples, num_features)
+
+        Outputs:
+        pred: np.array, shape (num_samples, )
+        """
+
+        """
+        Please Fill Your Code Here.
+        """
+
+        return pred
+
 
 if __name__ == '__main__':
-	# load data
-	x_train, y_train, x_test, y_test = load_mnist()
-	x_train, y_train = filter_dataset(x_train, y_train, 1, 7)
-	x_test, y_test = filter_dataset(x_test, y_test, 1, 7)
-	
-	# train ur classifier
-	lr = logistic_regression()
-	lr.train(x_train, y_train)
-	y_test_pred = lr.predict(x_test)
+    # load data
+    x_train, y_train, x_test, y_test = load_mnist()
+    x_train, y_train = filter_dataset(x_train, y_train, 1, 7)
+    x_test, y_test = filter_dataset(x_test, y_test, 1, 7)
 
-	# evaluate the prediction
-	y_test_pred[y_test_pred>0.5] = 1.0
-	y_test_pred[y_test_pred<=0.5] = 0.0
-	print(np.bincount(y_test_pred.astype(int)))
+    # train ur classifier
+    lr = logistic_regression()
+    lr.train(x_train, y_train)
+    y_test_pred = lr.predict(x_test)
 
-	test_acc = lr.acc_func(y_test,y_test_pred)
-	print("Your model acquires test acc: {:.4f} %".format(test_acc))
+    # evaluate the prediction
+    y_test_pred[y_test_pred > 0.5] = 1.0
+    y_test_pred[y_test_pred <= 0.5] = 0.0
+    print(np.bincount(y_test_pred.astype(int)))
 
-	if test_acc >= 95:
-		print("Congratulations! Your classifier works!")
-	else:
-		print("Check your code! Sth went wrong.")
+    test_acc = lr.acc_func(y_test, y_test_pred)
+    print("Your model acquires test acc: {:.4f} %".format(test_acc))
+
+    if test_acc >= 95:
+        print("Congratulations! Your classifier works!")
+    else:
+        print("Check your code! Sth went wrong.")

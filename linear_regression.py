@@ -41,8 +41,6 @@ class linear_regression:
             """
             Please Fill Your Code Here.
             """
-            sum = np.sum(y_train - x_train.dot(self.w))
-            # self.w = self.w + self.learning_rate*sum*x_train
             self.w = self.w + self.learning_rate * (y_train[i] - x_train[i].dot(self.w)) * x_train[i]
 
             if i % 100 == 0:
