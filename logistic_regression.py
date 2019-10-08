@@ -49,17 +49,7 @@ class logistic_regression:
             """
             Please Fill Your Code Here.
             """
-            def indicator(a, b):
-                if a == b:
-                    return 1
-                else:
-                    return 0
-
-            #self.w = self.w + self.learning_rate * (y_train[i] - x_train[i].dot(self.w)) * x_train[i]
-            p = np.exp(x_train[i].dot(self.w))/sum(np.exp(x_train[i].dot(self.w)))
-            grad = 42
-            self.w = self.w + self.learning_rate * grad
-            # http://www.datascribble.com/blog/machine-learning/introduction-softmax-regression-codes-python/
+            self.w = self.w + self.learning_rate * (y_train[i] - 1/(1+np.exp(-self.w.dot(x_train[i])))) * x_train[i]
 
     def predict(self, x_test):
         """Do prediction via the learned model.
@@ -73,7 +63,7 @@ class logistic_regression:
         """
         Please Fill Your Code Here.
         """
-
+        pred = x_test.dot(self.w)
         return pred
 
 
